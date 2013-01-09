@@ -1,0 +1,9 @@
+flask
+flask-bootstrap
+flask-login
+git+git://github.com/sigmavirus24/github3.py.git#egg=github3
+redis
+requests
+requests_oauth2
+rq
+rq-dashboard
