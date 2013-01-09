@@ -1,0 +1,56 @@
+{% extends "default.html" %}
+
+{% block main_content %}
+  {% if not current_user.is_authenticated() %}
+    {{ super() }}
+  {% else %}
+    {% if repos == None %}
+      <h3>Retrieving your repositories. Please wait...</h3>
+    {% elif not repos %}
+      <h3>No repositories were found. <a href="https://github.com/new">Go create one!</a></h3>
+    {% else %}
+      <h3>Showing {{ repos|length }} repositories from your Github account.</h3>
+      {% for repo in repos %}
+        <div class="well">
+          <div class="pull-right">
+            
+            {# show the repo language #}
+            {% if repo.language %}
+              <small>{{ repo.language }}</small>
+            {% endif %}
+
+            {# show a badge if the repo is a fork #}
+            {% if repo.fork %}
+              <i class="icon-random" title="{{ repo.name }} is a fork"></i>
+            {% endif %}
+
+            {# show a badge if the repo is private #}
+            {% if repo.is_private %}
+              <i class="icon-lock"></i>
+            {% endif %}
+          </div>
+
+          <h4><a href="{{ repo.html_url }}">{{ repo.full_name }}</a></h4>
+          <blockquote>
+            <p>{{ repo.description }}</p>
+          </blockquote>
+
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block bootstrap_js_bottom %}
+  {{ super() }}
+
+  {# only do the repo check if the user is logged in and we haven't looked for repos yet #}
+  {% if current_user.is_authenticated() and repos == None %}
+    <script src="{{ url_for('static', filename='js/default.js') }}"></script>
+    <script>
+      $(function() {
+        PhillyPUGithub.reloadIfReposReady();
+      });
+    </script>
+  {% endif %}
+{% endblock %}

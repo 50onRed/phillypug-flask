@@ -1,0 +1,6 @@
+{% extends "default.html" %}
+
+{% block main_content %}
+  <h1>Uh Oh!</h1>
+  <p>We can't really do anything useful without proper authorization. <a href="{{ url_for('oauth_login') }}">Try again!</a></p>
+{% endblock %}

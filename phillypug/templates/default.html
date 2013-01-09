@@ -1,0 +1,37 @@
+{% extends "bootstrap_responsive.html" %}
+
+{% block style_navbar_padding %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+{% endblock %}
+
+{% block body_content %}
+  <div class="container-narrow">
+
+    <div class="masthead">
+      <div class="pull-right">
+        {% if current_user.is_authenticated() %}
+          <img src="{{ current_user.info.avatar_url }}">
+          <a href="https://github.com/{{ current_user.info.login }}">{{ current_user.info.name }}</a>
+        {% endif %}
+      </div>
+      <h3 class="muted">PhillyPUGithub</h3>
+    </div>
+
+    <hr>
+
+    {% block main_content %}
+      <div class="jumbotron">
+        <h1>PhillyPUG Github Example Using Flask</h1>
+        <p class="lead">This is a super-simple website built using Flask. It will let you sign in using your Github account and display any public and private repos you own.</p>
+        <a class="btn btn-large btn-success" href="{{ url_for('oauth_login') }}">Sign in using your Github account</a>
+      </div>
+    {% endblock %}
+
+    <hr>
+
+    <div class="footer">
+      <p>&copy; 50onRed 2013</p>
+    </div>
+
+  </div> <!-- /container -->
+{% endblock %}
